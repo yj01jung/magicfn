@@ -6,7 +6,7 @@
   "module": "dist/index.esm.js",
   "umd": "dist/index.umd.js",
   "unpkg": "dist/index.umd.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds some magic to Function",
   "license": "MIT",
   "author": "Yujun Jung <yj01jung@gmail.com>",
@@ -16,9 +16,17 @@
   },
   "homepage": "https://github.com/yj01jung/magicfn",
   "devDependencies": {
-    "microbundle": "^0.12.4"
+    "microbundle": "^0.12.4",
+    "rimraf": "^3.0.2"
   },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
-    "build": "microbundle"
+    "prebuild": "rimraf dist",
+    "build": "microbundle",
+    "prepack": "yarn build"
   }
 }
