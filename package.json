@@ -6,7 +6,7 @@
   "module": "dist/index.esm.js",
   "umd": "dist/index.umd.js",
   "unpkg": "dist/index.umd.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Adds some magic to Function",
   "license": "MIT",
   "author": "Yujun Jung <yj01jung@gmail.com>",
@@ -16,6 +16,10 @@
   },
   "homepage": "https://github.com/yj01jung/magicfn",
   "devDependencies": {
+    "@babel/generator": "^7.12.5",
+    "@babel/helper-module-imports": "^7.12.5",
+    "@babel/template": "^7.12.7",
+    "@babel/types": "^7.12.7",
     "babel-plugin-macros": "^3.0.0",
     "microbundle": "^0.12.4",
     "rimraf": "^3.0.2"
