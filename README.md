@@ -1,33 +1,60 @@
 # magicfn - adds some magic to function
 
+![Usage](./images/usage.png)
+
+## Sometimes this would be very useful
+
 ### Features
 
 - make any function as native function
-- customize stringified content of any function
-- pure js and tiny
+- control stringified content of any function
+- babel macros support for puppetter ...etc
+
+### Standalone Usage
 
 ```js
-const fn = () => 1;
+import { native } from 'magicfn';
+const fn = native(() => 1, 'hello');
+console.log(fn); // function hello() { [native code] }
+console.log(fn()); // 1
+```
 
-native(fn, 'hello'); // as native function
-'' + fn === 'function hello() { [native code] }';
-fn.name === 'hello';
+### with Macro + Puppeteer usage
 
-custom(fn, 'int main() { printf("Hello, World!"); }'); // any custom contents
-fn() === 1; // function is original
-String(fn) === 'int main() { printf("Hello, World!"); }'; // it works
+### JUST wrap browser scope function as macro
 
-// other thing works well
-fn.toString.toString() === 'function toString() { [native code] }';
+- you can use this with [vercel/pkg](https://github.com/vercel/pkg) and [bytenode](https://github.com/OsamaAbbas/bytenode)
+- function will never be parsed and send to browser directly (good for speed)
+
+#### Before
+
+```js
+import $$ from 'magicfn/macro';
+
+page.eval(
+  $$(arg => {
+    const $el = document.querySelector('video');
+    console.log($el, arg);
+  })
+);
+```
+
+#### After
+
+```js
+import { helper as _helper } from 'magicfn';
+
+page.eval(
+  _helper(
+    "arg=>{const $el=document.querySelector('video');console.log($el,arg);}"
+  )
+);
 ```
 
 ### Requires
 
 - WeakMap
-- Proxy
-- no other dependencies
-
-###
+- Proxy (CANNOT be polyfilled)
 
 ### Documents
 
@@ -100,11 +127,9 @@ export declare function revert<T extends Fn>(fn: T): T;
 
 ### Limitation
 
-- Modifys Function.prototype.toString (but no slowdown because hardly used)
+- All limitation is fixed in v2
 
-- In Node, detection is available with utils.types.isProxy (in v8::Value::isProxy) <br/>
-  Defined in https://github.com/nodejs/node/blob/master/src/node_types.cc
-
+<!--
 ```c++
 // line 42
 #define V(type) \
@@ -122,4 +147,4 @@ export declare function revert<T extends Fn>(fn: T): T;
   VALUE_METHOD_MAP(V)
 #undef V
 
-```
+``` -->

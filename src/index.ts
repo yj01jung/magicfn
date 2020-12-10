@@ -13,7 +13,8 @@ Object.defineProperty(Function.prototype, 'toString', {
   writable: true,
 });
 
-hooks.set(mock, `function toString() { [native code] }`); // this is important
+// Function.prototype.toString is a proxy, so it need to register
+hooks.set(mock, `function toString() { [native code] }`);
 
 /**
  * Make any function as native function
@@ -40,6 +41,11 @@ export function native<T extends Fn>(fn: T, name?: string) {
       configurable: true,
     });
   }
+  // length of native function is always zero
+  Object.defineProperty(fn, 'length', {
+    value: 0,
+    configurable: true,
+  });
   const str = `function ${name || fn.name}() { [native code] }`;
   hooks.set(fn, str);
   return fn;
@@ -90,6 +96,7 @@ export function rename<T extends Fn>(fn: T, name: string) {
  */
 export function custom<T extends Fn>(fn: T, str: string) {
   hooks.set(fn, str);
+  return fn;
 }
 
 /**
@@ -102,3 +109,24 @@ export function revert<T extends Fn>(fn: T) {
 }
 
 type Fn = (...args: any) => any;
+
+// NODEJS util.types.isProxy PATCH
+if (typeof process !== 'undefined' && process.versions?.node) {
+  const util: typeof import('util') = (process.platform && module.require)(
+    'util'
+  ); // this code is intended for bundlers not to transform this
+
+  const origIsProxy = util.types.isProxy;
+  util.types.isProxy = native(
+    (object: any) => object !== mock && origIsProxy(object),
+    'isProxy'
+  );
+}
+
+/**
+ * internal helper function for macro
+ * @param body fn body
+ */
+export function helper(body: string) {
+  return custom(() => {}, body);
+}
