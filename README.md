@@ -1,4 +1,4 @@
-# magicfn - adds some magic to function
+# magicfn - adds some magic to function [![npm version](https://badge.fury.io/js/magicfn.svg)](https://badge.fury.io/js/magicfn)
 
 ![Usage](./images/usage.png)
 
@@ -25,6 +25,11 @@ console.log(fn()); // 1
 
 ![Benchmark](./images/bench.png)
 this is magicfn's whole source
+
+```js
+import { helper } from 'magicfn';
+console.log(typeof helper('() => {console.log(this)}')); // function
+```
 
 - only stringified results are same with original, replaced with noop
 - you can use this with [vercel/pkg](https://github.com/vercel/pkg) and [bytenode](https://github.com/OsamaAbbas/bytenode)
