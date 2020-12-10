@@ -23,6 +23,7 @@ console.log(fn()); // 1
 
 ### JUST wrap browser scope function as macro
 
+- only stringified results are same with original, replaced with noop
 - you can use this with [vercel/pkg](https://github.com/vercel/pkg) and [bytenode](https://github.com/OsamaAbbas/bytenode)
 - function will never be parsed and send to browser directly (good for speed)
 
