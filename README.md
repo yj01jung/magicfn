@@ -21,13 +21,14 @@ console.log(fn()); // 1
 
 ### with Macro + Puppeteer usage
 
-### JUST wrap browser scope function as macro
+### 132,794x faster stringify than normal function (incredible speed)
+
+![Benchmark](./images/bench.png)
+this is magicfn's whole source
 
 - only stringified results are same with original, replaced with noop
 - you can use this with [vercel/pkg](https://github.com/vercel/pkg) and [bytenode](https://github.com/OsamaAbbas/bytenode)
 - function will never be parsed and send to browser directly (good for speed)
-
-#### Before
 
 ```js
 import $$ from 'magicfn/macro';
