@@ -49,7 +49,7 @@ import { helper as _helper } from 'magicfn';
 page.eval(
   _helper(
     "arg=>{const $el=document.querySelector('video');console.log($el,arg);}"
-  )
+  ) // just compiled function as string
 );
 ```
 
